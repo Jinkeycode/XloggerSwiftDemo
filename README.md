@@ -1,5 +1,6 @@
 # XloggerSwiftDemo
 A swift demo of Wechat Mars/Xlogger
+
 Swift 接入微信开源组件 Mars 的示例代码
 
 To see the guideline about this project, you can click the below link：
@@ -228,7 +229,9 @@ jmb.log(.debug, tag: "JinkeyIO", content: "我的公众号是 jinkey-love")
 > 这里为了说明方便而在打印日志的地方实例化，生产环境使用建议使用单例模式实例化JinkeyMarsBridge
 
 Xcode8 默认会在控制台打印一大堆日志，为了演示效果最佳，可以点击 Xcode 选择Product->Scheme->Edit Scheme
+
 ![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger10.png)
+
 在弹出的窗口中Environment Variables 下添加 0S_ACTIVITY_MODE disable，如下图
 ![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger11.jpg)
 
