@@ -48,9 +48,11 @@ python build_apple.py
 ￼
 
 # 引入辅助库
-将编译得到的 log_crypt.cc（log_crypt.cc.rewriteme 直接重命名去掉 .rewriteme）、log_crypt.h 拖入 Xcode 左侧目录结构，弹出的对话框勾选 “Copy items if needed”
+将编译得到的 `log_crypt.cc`（log_crypt.cc.rewriteme 直接重命名去掉 .rewriteme）、`log_crypt.h` 拖入 Xcode 左侧目录结构，弹出的对话框勾选 
+
 ￼
-mars-master/samples/iOS/iOSDemo/Component 目录下的 LogHelper.h、LogHelper.mm、LogUtil.h、LogUtil.m 拖入 Xcode 左侧目录结构，弹出的对话框勾选 “Copy items if needed”
+
+`mars-master/samples/iOS/iOSDemo/Component` 目录下的 `LogHelper.h`、`LogHelper.mm`、`LogUtil.h`、`LogUtil.m` 拖入 Xcode 左侧目录结构，弹出的对话框勾选 `“Copy items if needed”`
 为了整洁，对几个文件进行了分组
 ￼
 
