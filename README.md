@@ -9,7 +9,7 @@ To see the guideline about this project, you can click the below link：
 
 # Step 1 下载代码
 使用 git  clone 或者直接下载 zip，解压后进入目录 mars-master/mars/libraries，看到有一个 build_apple.py 的文件（官方文档没说清楚在哪里目录下 orz...）
-￼
+￼![](https://github.com/Jinkeycode/XloggerSwiftDemo/blob/master/README_image/xlogger1.jpg)
 
 # Step 2 编译Mars
 在终端进入工程目录输入
