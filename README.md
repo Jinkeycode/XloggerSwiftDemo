@@ -5,7 +5,7 @@ Swift 接入微信开源组件 Mars 的示例代码
 To see the guideline about this project, you can click the below link：
 [http://www.jianshu.com/p/fe8c5f3f6389](http://www.jianshu.com/p/fe8c5f3f6389)
 
-> 支持开源，但吐槽一句，作为公司级开源项目，文档严重不全，希望微信的开发大大能尽快补上。
+> 支持开源，但吐槽一句，作为公司级开源项目，文档有点少哦，希望微信的开发大大能尽快补上。
 
 # Step 1 下载代码
 使用 git  clone 或者直接下载 zip，解压后进入目录 mars-master/mars/libraries，看到有一个 build_apple.py 的文件
