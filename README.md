@@ -46,6 +46,7 @@ python build_apple.py
 # Step 3 引入项目
 将 mars.framework 拖入 Linked Frameworks and Libraries 并且加入其他四个系统库，弄好之后如下：
 ![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger3.jpg)
+> 20170102 早上的 mars.framework 漏了一个斜杠，会导致无法编译，20170102 下午官方已修复，请确保你把版本更新到你看这篇文章时候的最新版本。
 
 # Step 4 引入辅助库
 将编译得到的 `log_crypt.cc`（log_crypt.cc.rewriteme 直接重命名去掉 .rewriteme）、`log_crypt.h` 拖入 Xcode 左侧目录结构，弹出的对话框勾选`“Copy items if needed”`
@@ -189,6 +190,12 @@ appender-swift-bridge.mm
 @end
 ```
 > Xlogger 目前在 Xcode 的控制台输出中文会乱码，不清楚是 Xcode 还是 Xlogger 的问题，待官方解决吧
+> 补充更新，微信在20170103下午已经修复了中文乱码的问题，所以示例代码中我去掉了: 
+```objective-c
+#if DEBUG
+NSLog(@"[%s][%s]%@%@", levelDescription, tag, content, @">>>该行 log 由于目前Xlogger 在控制台输出中文会乱码而使用 NSlog 输出的, 不会记录到 Xlogger 文件中且在 Release 版本中不会输出到控制台");
+#endif
+```
 
 # Step 6 桥接 Swift 和 Objective-C
 新建文件 <工程名>-Bridging-Header.h，我这里的示例工程名为XloggerSwiftDemo 所以新建文件XloggerSwiftDemo-Bridging-Header.h
@@ -220,6 +227,11 @@ jmb.log(.debug, tag: "JinkeyIO", content: "我的公众号是 jinkey-love")
 ```
 > 这里为了说明方便而在打印日志的地方实例化，生产环境使用建议使用单例模式实例化JinkeyMarsBridge
 
+Xcode8 默认会在控制台打印一大堆日志，为了演示效果最佳，可以点击 Xcode 选择Product->Scheme->Edit Scheme
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger10.png)
+在弹出的窗口中Environment Variables 下添加 0S_ACTIVITY_MODE disable，如下图
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger11.jpg)
+
 # Step 9 分析日志
 通过以下代码在控制台打印出模拟器中示例程序沙盒所在的目录
 ```swift
@@ -240,6 +252,6 @@ Test.mmap2 是缓存文件，不用关心，我们需要的是 Test_20170103.xlo
 你觉得这篇文章对您有用吗？有用的话希望您可以打赏支持我
 ![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger9.jpg)
 
-# 卖个广告支持我大学好基友的项目
+卖个广告支持我大学好基友的项目：
 在 AppStore 搜索“优读”，为你私人定制的干货阅读器，一线互联网公司大神为你过滤优质的文章，可以订阅各大网站的信息源。高效过滤和推荐算法为了提供给个性化阅读信息流。当然，你也可以分享好的文章给别人，共享优质文章。
 [点击下载](http://a.app.qq.com/o/simple.jsp?pkgname=io.jinkey.uread)
