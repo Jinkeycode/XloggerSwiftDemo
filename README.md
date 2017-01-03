@@ -8,8 +8,8 @@ To see the guideline about this project, you can click the below link：
 > 支持开源，但吐槽一句，作为公司级开源项目，文档严重不全，希望微信的开发大大能尽快补上。
 
 # Step 1 下载代码
-使用 git  clone 或者直接下载 zip，解压后进入目录 mars-master/mars/libraries，看到有一个 build_apple.py 的文件（官方文档没说清楚在哪里目录下 orz...）
-￼![](https://github.com/Jinkeycode/XloggerSwiftDemo/blob/master/README_image/xlogger1.jpg)
+使用 git  clone 或者直接下载 zip，解压后进入目录 mars-master/mars/libraries，看到有一个 build_apple.py 的文件
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger1.jpg)
 
 # Step 2 编译Mars
 在终端进入工程目录输入
@@ -40,24 +40,24 @@ python build_apple.py
 对比之后发现一个大坑：**build_apple.py 的路径不能有空格！！！**
 
 编译成功之后生成一个以你自定义前缀的目录，里面就有 framwork：
-￼
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger2.jpg)
 从 mars-log-iphone.xcodeproj 的 iOS deployment target 来看，最低支持 iOS 7.
 
 # Step 3 引入项目
 将 mars.framework 拖入 Linked Frameworks and Libraries 并且加入其他四个系统库，弄好之后如下：
-￼
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger3.jpg)
 
 # Step 4 引入辅助库
-将编译得到的 `log_crypt.cc`（log_crypt.cc.rewriteme 直接重命名去掉 .rewriteme）、`log_crypt.h` 拖入 Xcode 左侧目录结构，弹出的对话框勾选 
+将编译得到的 `log_crypt.cc`（log_crypt.cc.rewriteme 直接重命名去掉 .rewriteme）、`log_crypt.h` 拖入 Xcode 左侧目录结构，弹出的对话框勾选`“Copy items if needed”`
 
-￼
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger4.jpg)
 
-`mars-master/samples/iOS/iOSDemo/Component` 目录下的 `LogHelper.h`、`LogHelper.mm`、`LogUtil.h`、`LogUtil.m` 拖入 Xcode 左侧目录结构，弹出的对话框勾选 `“Copy items if needed”`
+把`mars-master/samples/iOS/iOSDemo/Component` 目录下的 `LogHelper.h`、`LogHelper.mm`、`LogUtil.h`、`LogUtil.m` 拖入 Xcode 左侧目录结构，弹出的对话框勾选 `“Copy items if needed”`
 为了整洁，对几个文件进行了分组
-￼
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger5.png)
 
-最终的文件目录和工程目录如下：(忽略 Appender2SwiftBridge和）， 下文会说到)
-￼
+最终的文件目录和工程目录如下：(忽略 Appender2SwiftBridge）， 下文会说到)
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger6.jpg)
 
 # Step 5 桥接 Objective-C 和 C++ 代码
 新建两个文件（不想写的可以直接下载 Github 下的示例代码拖入工程）
@@ -82,7 +82,7 @@ typedef NS_ENUM(NSUInteger, XloggerType) {
 
 @interface JinkeyMarsBridge: NSObject
 
-- (void)initXlogger: (XloggerType)debugLevel releaseLevel: (XloggerType)releaseLevel path: (NSString*)path;
+- (void)initXlogger: (XloggerType)debugLevel releaseLevel: (XloggerType)releaseLevel path: (NSString*)path prefix: (const char*)prefix;
 - (void)deinitXlogger;
 
 - (void)log: (XloggerType) level tag: (const char*)tag content: (NSString*)content;
@@ -104,7 +104,7 @@ appender-swift-bridge.mm
 
 // 封装了初始化 Xlogger 方法
 // initialize Xlogger
--(void)initXlogger: (XloggerType)debugLevel releaseLevel: (XloggerType)releaseLevel path: (NSString*)path{
+-(void)initXlogger: (XloggerType)debugLevel releaseLevel: (XloggerType)releaseLevel path: (NSString*)path prefix: (const char*)prefix{
     
     NSString* logPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingString:path];
     
@@ -143,7 +143,7 @@ appender-swift-bridge.mm
     }
     appender_set_console_log(false);
     #endif
-    appender_open(kAppednerAsync, [logPath UTF8String], "Test");
+    appender_open(kAppednerAsync, [logPath UTF8String], prefix);
     
 }
 
@@ -203,9 +203,9 @@ appender-swift-bridge.mm
 在 didFinishLaunchingWithOptions 方法中加入以下代码初始化
 ```swift
 var jmb = JinkeyMarsBridge()
-jmb.initXlogger(.debug, releaseLevel: .info, path: "/jinkeylog")
+jmb.initXlogger(.debug, releaseLevel: .info, path: "/jinkeylog", prefix: "Test")
 ```
-> 其中 initXlogger 的第一个参数是开发环境显示日志的级别，第二个参数是生产环境显示日志的级别，第三个是储存路径。日志的级别我在示例代码中封装了 debug，info，warning，error 四个级别。
+> 其中 initXlogger 的第一个参数是开发环境显示日志的级别；第二个参数是生产环境显示日志的级别；第三个是储存路径日志的级别，我在示例代码中封装了 debug，info，warning，error 四个级别；第四个参数是输入日志文件的前缀。
 
 在 applicationWillTerminate 方法中加入以下代码反初始化
 ```swift
@@ -227,5 +227,15 @@ var logPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomai
 print(logPath)
 ```
 通过 MacOS 的 Finder-前往文件夹粘贴该路径打开
-￼
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger7.png)
+可以看到以下目录结构
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger8.jpg)
+Test.mmap2 是缓存文件，不用关心，我们需要的是 Test_20170103.xlog 文件，我们把这个文件使用Mars提供的 Python 脚本进行解密。脚本在mars-master/mars/log/crypt/decode_mars_log_file.py
+把 decode_mars_log_file.py 和 Test_20170103.xlog 拉到桌面，从 MacOS 的终端使用 cd 命令进入桌面，再输入命令
+```shell
+ python decode_mars_log_file.py Test_20170103.xlog
+```
+接着会在桌面生成一个 Test_20170103.xlog.log 文件，用文本编辑工具打开即可看到打印的日志
 
+你觉得这篇文章对您有用吗？有用的话希望您可以打赏支持我
+![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger9.jpg)
