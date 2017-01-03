@@ -11,7 +11,7 @@ To see the guideline about this project, you can click the below link：
 使用 git  clone 或者直接下载 zip，解压后进入目录 mars-master/mars/libraries，看到有一个 build_apple.py 的文件（官方文档没说清楚在哪里目录下 orz...）
 ￼
 
-# 编译Mars
+# Step 2 编译Mars
 在终端进入工程目录输入
 ```shell
 python build_apple.py
@@ -43,11 +43,11 @@ python build_apple.py
 ￼
 从 mars-log-iphone.xcodeproj 的 iOS deployment target 来看，最低支持 iOS 7.
 
-# 引入项目
+# Step 3 引入项目
 将 mars.framework 拖入 Linked Frameworks and Libraries 并且加入其他四个系统库，弄好之后如下：
 ￼
 
-# 引入辅助库
+# Step 4 引入辅助库
 将编译得到的 `log_crypt.cc`（log_crypt.cc.rewriteme 直接重命名去掉 .rewriteme）、`log_crypt.h` 拖入 Xcode 左侧目录结构，弹出的对话框勾选 
 
 ￼
@@ -59,7 +59,7 @@ python build_apple.py
 最终的文件目录和工程目录如下：(忽略 Appender2SwiftBridge和）， 下文会说到)
 ￼
 
-# 桥接 Objective-C 和 C++ 代码
+# Step 5 桥接 Objective-C 和 C++ 代码
 新建两个文件（不想写的可以直接下载 Github 下的示例代码拖入工程）
 appender-swift-bridge.h
 ```objective-c
@@ -190,7 +190,7 @@ appender-swift-bridge.mm
 ```
 > Xlogger 目前在 Xcode 的控制台输出中文会乱码，不清楚是 Xcode 还是 Xlogger 的问题，待官方解决吧
 
-# 桥接 Swift 和 Objective-C
+# Step 6 桥接 Swift 和 Objective-C
 新建文件 <工程名>-Bridging-Header.h，我这里的示例工程名为XloggerSwiftDemo 所以新建文件XloggerSwiftDemo-Bridging-Header.h
 写入以下代码
 ```objective-c
@@ -198,7 +198,7 @@ appender-swift-bridge.mm
 ```
 至此，Xlogger 的基本方法已暴露给 Swift 使用了。
 
-# 初始化和反初始化 Xlogger
+# Step 7 初始化和反初始化 Xlogger
 打开 AppDelegate.swift
 在 didFinishLaunchingWithOptions 方法中加入以下代码初始化
 ```swift
@@ -212,7 +212,7 @@ jmb.initXlogger(.debug, releaseLevel: .info, path: "/jinkeylog")
 JinkeyMarsBridge().deinitXlogger()
 ```
 
-# 打印日志
+# Step 8 打印日志
 在想要打印日志的地方写入以下代码
 ```swift
 var jmb = JinkeyMarsBridge()
@@ -220,7 +220,7 @@ jmb.log(.debug, tag: "JinkeyIO", content: "我的公众号是 jinkey-love")
 ```
 > 这里为了说明方便而在打印日志的地方实例化，生产环境使用建议使用单例模式实例化JinkeyMarsBridge
 
-# 分析日志
+# Step 9 分析日志
 通过以下代码在控制台打印出模拟器中示例程序沙盒所在的目录
 ```swift
 var logPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
