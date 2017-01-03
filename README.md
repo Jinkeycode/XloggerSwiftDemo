@@ -239,3 +239,7 @@ Test.mmap2 是缓存文件，不用关心，我们需要的是 Test_20170103.xlo
 
 你觉得这篇文章对您有用吗？有用的话希望您可以打赏支持我
 ![](https://raw.githubusercontent.com/Jinkeycode/XloggerSwiftDemo/master/README_image/xlogger9.jpg)
+
+# 卖个广告支持我大学好基友的项目
+在 AppStore 搜索“优读”，可以关注各种信息源和查看大神分享的文章哦，当然，你也可以分享好的文章给别人，共享优质文章。
+[点击下载](http://a.app.qq.com/o/simple.jsp?pkgname=io.jinkey.uread)
